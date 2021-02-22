@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<style>
+#footer{
+	position: fixed; 
+	bottom: 0; 
+	width: 100%;
+}
+</style>
+        <!-- Footer
+    ================================================= -->
+    <br>
+    <footer id="footer">
+      <div class="container">
+      	<div class="row">
+      	<div>
+          <!-- <div class="footer-wrapper"> -->
+<%--             <div class="col-md-3 col-sm-3">
+              <a href=""><img src="${pageContext.request.contextPath}/resources/sns/HTML/images/logo-black.png" alt="" class="footer-logo" /></a>
+              <ul class="list-inline social-icons">
+              	<li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>전화번호</h5>
+              <ul class="footer-links">
+				<li><i class="icon ion-ios-telephone-outline"></i>031-123-1234</li>             
+             <!--  <li><a href="">가입하기</a></li>
+                <li><a href="">로그인</a></li>
+                <li><a href="">탐색</a></li>
+                <li><a href="">앱 다운로드</a></li>
+                <li><a href="">sns 소개</a></li>
+                <li><a href="">언어 설정</a></li> -->
+              </ul>
+            </div>
+     <!--   삭제.     <div class="col-md-2 col-sm-2">
+              <h5>For businesses</h5>
+              <ul class="footer-links">
+                <li><a href="">Business signup</a></li>
+                <li><a href="">Business login</a></li>
+                <li><a href="">Benefits</a></li>
+                <li><a href="">Resources</a></li>
+                <li><a href="">Advertise</a></li>
+                <li><a href="">Setup</a></li>
+              </ul>
+            </div> -->
+            <div class="col-md-2 col-sm-2">
+              <h5>이메일</h5>
+              <ul class="footer-links">
+              <li><i class="icon ion-ios-email-outline"></i>AY_EZEN@naver.com</li>
+                <!-- <li><a href="">문의하기</a></li>
+                <li><a href="">개인정보정책</a></li>
+ -->
+                
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <h5>위치</h5>
+              <ul class="contact">
+                <li><i class="icon ion-ios-location-outline"></i>경기도 안양시 만안구</li>
+              </ul>
+            </div> --%>
+          </div>
+      	</div>
+      </div>
+      <div class="copyright">
+        <p>Every&nbsp;Day&nbsp;Every&nbsp;Moment</p>
+      </div>
+		</footer>
+    
+    <!--preloader-->
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+    
+    <!-- Scripts
+    ================================================= -->
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&callback=initMap"></script> -->
+    <script src="${pageContext.request.contextPath}/resources/sns/HTML/js/jquery-3.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/sns/HTML/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/sns/HTML/js/script.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/sns/HTML/js/jquery.appear.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/sns/HTML/js/jquery.incremental-counter.js"></script>
+    
+  </body>
+</html>
+    

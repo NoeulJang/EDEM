@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.FollowMapper">
+
+	<sql id="searchF">
+		<if test="!cri.keyword.equals('not match')">
+				and UPPER(id) like UPPER('%${cri.keyword}%')
+		</if>
+	</sql>
+
+
+	<select id="followingCount" resultType="int">
+	<![CDATA[
+		select count(*) from
+		(select m.* from following f, member m where f.flino = m.memno and f.memno=#{vo.memno}
+	]]><include refid="searchF"></include>
+	)	
+	</select>
+
+
+	<select id="followerCount" resultType="int">
+	<![CDATA[
+		select count(*) from
+		(select m.* from follower f, member m where f.flwno = m.memno and f.memno=#{vo.memno}
+	]]><include refid="searchF"></include>
+	)	
+	</select>
+	
+
+	<select id="followingListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select * from 
+    (select rownum rnum, data.* from (
+	select m.* from following f, member m where f.flino = m.memno and f.memno=#{vo.memno}) data)
+    where rnum>= (#{cri.pageNo}-1)*10+1 and rnum <= #{cri.pageNo}*10 order by id
+	]]>
+	</select>
+	
+	
+	<select id="searchFollowingListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	 select * from 
+    (select rownum rnum, data.* from (
+	select m.* from following f, member m where f.flino = m.memno and f.memno=#{vo.memno}) data)
+    where rnum>= (#{cri.pageNo}-1)*10+1 and rnum <= #{cri.pageNo}*10
+    and UPPER(id) like UPPER('%'||#{cri.keyword}||'%') order by id
+	]]>
+	</select>
+	
+	
+	<select id="followerListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select * from 
+    (select rownum rnum, data.* from (
+	select m.* from follower f, member m where f.flwno = m.memno and f.memno=#{vo.memno}) data)
+    where rnum>= (#{cri.pageNo}-1)*10+1 and rnum <= #{cri.pageNo}*10 order by id
+	]]>
+	</select>
+	
+	
+	<select id="searchFollowerListPage" resultType="com.team2.domain.UserVO">   
+	<![CDATA[        
+	select * from 
+    (select rownum rnum, data.* from (
+	select m.* from follower f, member m where f.flwno = m.memno and f.memno=#{vo.memno}) data)
+    where rnum>= (#{cri.pageNo}-1)*10+1 and rnum <= #{cri.pageNo}*10
+    and UPPER(id) like UPPER('%'||#{cri.keyword}||'%') order by id
+
+	]]>
+	</select>
+	
+	
+	<!-- 
+ 	<select id="followingListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select fno2 memno, mid id, mname name, mjob job, mmemimg memimg, mcovimg covimg from 
+	(select rownum rnum, data.* from (select  * from member m, 
+	(select f.memno as fno1, f.flino as fno2, m.id as mid, m.name as mname, m.job as mjob, m.memimg as mmemimg, m.covimg as mcovimg 
+	from following f, member m where f.flino = m.memno) fl 
+    where m.memno = fno1 and m.memno=#{memNo}) data) where rnum >= (#{pageMaker.pageCriteria.pageNo}-1)*10+1 
+    and rnum <= #{pageMaker.pageCriteria.pageNo}*10
+	]]>
+	
+	</select> 
+	
+	
+	
+	
+	<select id="followerListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select flwno memno, mid id, mname name, mjob job, mimg memimg, cimg covimg from  
+	(select rownum rnum, data.* from (select * from member m, 
+	(select f.memno fmemno, f.flwno flwno, m.id mid, m.name mname, m.job mjob, m.memimg mimg, m.covimg cimg 
+	from follower f, member m where f.flwno = m.memno) fl 
+	where m.memno = fl.fmemno and m.memno=#{memNo}) data) 
+	where rnum >= (#{pageMaker.pageCriteria.pageNo}-1)*10+1 and rnum <= #{pageMaker.pageCriteria.pageNo}*10
+	]]>
+	</select>
+	
+	 
+	
+	
+	<select id="searchFollowerListPage" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select * from 
+    (select rownum rnum, data.* from (select * from(
+		select m.* from follower f, member m where f.flwno = m.memno and f.memno= #{memno})fm where id like '%'||#{keyword}||'%')data)
+            where rnum>= #{startPage} and rnum <= #{size};
+	]]>
+	</select> -->
+	
+
+	
+
+</mapper>

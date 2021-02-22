@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.TimelineMapper">
+
+	<sql id="search">
+		<if test="keyword != null">
+			and UPPER(post.postcon) like UPPER('%${keyword}%')
+		</if>
+	</sql>
+	
+	<select id="userInfo" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+	select * from member where memno=#{memno}
+	]]>
+	</select>
+
+	<select id="listSearchCriteria"
+		resultType="com.team2.domain.TimelineVO">
+		<![CDATA[
+	  select postval.*, ad.fullname from postattach ad,(select * from 
+          (select rownum rnum, data.* from (select * from post where memno = #{memno}
+	]]>
+
+		<include refid="search"></include> 
+	
+	<![CDATA[
+ 			order by postno desc) data ) 
+          where rnum>= #{startPage} and rnum <= #{size}) postval where postval.postno = ad.postno order by postDate desc
+		]]>
+	</select>
+
+	<select id="listSearchCount" resultType="int">
+		<![CDATA[  
+   select count(postno) 
+  from post 
+  where postno > 0 
+]]>
+		<include refid="search"></include>
+	</select>
+	
+	<select id="flistSearchCount" resultType="int">
+		<![CDATA[  
+   select count(postno) 
+  from post 
+  where memno=#{memno}
+]]>
+		<include refid="search"></include>
+	</select>
+
+	<select id="read" resultType="com.team2.domain.TimelineVO">
+		<![CDATA[ 
+	select p.*, ad.fullname from post p, postattach ad where p.postno = #{postno} and p.postno=ad.postno
+	]]>
+	</select>
+
+	<select id="insert">
+		<![CDATA[
+	insert into post (postNo,memno,postCon,postCi,postLike,postDate) values ( postseq.NEXTVAL,#{memno}, #{postCon}, #{postCi}, #{postLike}, SYSDATE)
+	]]>
+	</select>
+
+	<select id="update">
+		<![CDATA[ 
+  update post set postCon = #{postCon}, postDate = SYSDATE  where postNo = #{postNo}
+]]>
+	</select>
+
+	<select id="delete">
+		<![CDATA[
+delete from post where postNo = #{postNo}
+]]>
+	</select>
+
+	<insert id="addAttach">
+		<![CDATA[
+insert into postattach values (#{fullName}, postseq.currval, sysdate)
+]]>
+	</insert>
+
+	<insert id="nullAttach">
+		<![CDATA[
+insert into postattach values ('nofile', postseq.currval, sysdate)
+]]>
+	</insert>
+
+
+
+	<delete id="deleteAttach">
+		<![CDATA[ delete from postattach where postNo = #{postNo} 
+	]]>
+
+	</delete>
+
+	<insert id="replaceAttach">
+		<![CDATA[
+		 insert into postattach values (#{fullName}, postseq.currval, sysdate)
+	]]>
+
+	</insert>
+	
+	<select id="followBtn"  resultType="int">
+	<![CDATA[
+	select count(*) from following where memno=#{myno} and flino=#{memno}
+	]]>
+	</select>
+	
+	<delete id="deleteFollowing">
+	<![CDATA[
+  	DELETE FROM following WHERE memno = #{myno} and flino=#{memno}
+	]]>
+	</delete>
+	
+	<delete id="deleteFollower">
+	<![CDATA[
+  	DELETE FROM follower WHERE memno = #{memno} and flwno=#{myno}
+	]]>
+	</delete>
+	
+	<insert id="insertFollow"> 
+	<![CDATA[
+  	insert all 
+  	into following values (#{myno}, #{memno}) 
+  	into follower values (#{memno}, #{myno})
+  	select * from dual
+	]]>
+	</insert>
+	
+
+
+</mapper>

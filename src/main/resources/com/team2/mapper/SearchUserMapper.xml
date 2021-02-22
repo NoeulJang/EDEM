@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.SearchUserMapper">
+
+	<select id = "searchUserCount" resultType="int">
+	<![CDATA[
+		select count(id) from member where memno!=#{pageMaker.memNo} 
+		and upper(id) like upper('%'||#{cri.keyword}||'%') order by id
+	]]>
+	</select>
+	
+	<select id="searchUserList" resultType="com.team2.domain.UserVO">
+	<![CDATA[
+		select * from 
+			(select rownum rnum, data.* from
+				(select * from member where memno!=#{pageMaker.memNo} 
+				and upper(id) like upper('%'||#{cri.keyword}||'%') ) 
+			data) where rnum >= (#{cri.pageNo}-1)*#{cri.perPageNum}+1 
+				and rnum <= #{cri.pageNo}*#{cri.perPageNum} order by id
+	]]>
+	</select>
+
+
+
+</mapper>

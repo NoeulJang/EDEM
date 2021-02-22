@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.ProfileMapper">
+
+	<select id="read" resultType="com.team2.domain.UserVO">
+		<![CDATA[      
+select * from member where memno = #{memno}
+]]>
+	</select>
+
+	<select id="modify"  resultType="com.team2.domain.UserVO">
+		<![CDATA[ 
+	update member set name = #{name} , ph = #{ph}, email = #{email}, loc= #{loc}, job= #{job}, memimg = #{memimg}, covimg = #{covimg} where memno = #{memno}
+	]]>
+	</select>
+	
+	<update id="password">
+		<![CDATA[ 
+	update member set pw = #{pw} where memno = #{memno}
+	]]>
+	</update>
+	
+	<delete id="delete">
+		delete member where memno = #{memno}
+	</delete>
+
+
+</mapper>

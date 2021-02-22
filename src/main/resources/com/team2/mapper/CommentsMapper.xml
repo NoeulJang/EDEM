@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.mapper.CommentsMapper">
+
+	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. -->
+	
+	<insert id="addComments">
+	insert into comments values (commentsseq.nextval,#{postNo},#{memNo}, #{comCon}, sysdate)
+	</insert>
+	
+	<select id="listCommentsPage" resultType="com.team2.dto.CommentsDTO">
+	<![CDATA[
+	select * from (select rownum rnum, data.* from(select cp.*, m.id, m.memimg from member m, (
+    	select * from comments where postno = #{postNo} order by comno desc)cp where cp.memno=m.memno) data) 
+        	where rnum>= (#{pageMaker.pageCriteria.pageNo}-1)*10+1 and rnum <= #{pageMaker.pageCriteria.pageNo}*10
+	]]>
+	
+	</select>
+	
+	<select id="commentsCount" resultType="int">
+	<![CDATA[
+		select count(*) from comments 
+		where postNo = #{postNo}
+	]]>
+	</select>
+	
+	<update id="modifyComments">
+	<![CDATA[
+		update comments set comcon = #{comCon}, comdate=sysdate where comno = #{comNo}
+	]]>
+	</update>
+	
+	<delete id="delComments">
+	<![CDATA[
+		delete from comments where comno = #{comNo}
+	]]>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,127 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+
+    
+    
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="This is social network html5 template available in themeforest......" />
+		<meta name="keywords" content="Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+		<meta name="robots" content="index, follow" />
+		<title>team2프로젝트 | 소셜네트워크 사이트</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/sns/HTML/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/sns/HTML/css/style.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/sns/HTML/css/ionicons.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/sns/HTML/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/sns/HTML/css/addstyle.css">
+    
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/resources/sns/HTML/images/fav.png"/>
+	</head>
+  <body>
+
+    <!-- Header
+    ================================================= -->
+		<header id="header">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/newsfeed/newsfeedList"><img src="${pageContext.request.contextPath}/resources/sns/documentation/images/logo.png" alt="logo" /></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-menu">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">뉴스피드 <span><img src="${pageContext.request.contextPath}/resources/sns/HTML/images/down-arrow.png" alt="" /></span></a>
+                <ul class="dropdown-menu newsfeed-home">
+                  <li><a href="${pageContext.request.contextPath}/newsfeed/newsfeedList">뉴스피드</a></li>
+                  <li><a href="${pageContext.request.contextPath}/group/groupIndex">그룹</a></li>
+<%--                   <li><a href="${pageContext.request.contextPath}/sns/view/newsfeed/newsfeed-friends.jsp">친구 추천</a></li>
+                  <li><a href="${pageContext.request.contextPath}/sns/view/newsfeed/newsfeed-messages.jsp">대화하기</a></li> --%>
+<!--                   <li><a href="newsfeed-images.jsp">Images</a></li>
+                  <li><a href="newsfeed-videos.jsp">Videos</a></li> -->
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${member.id}<span><img src="${pageContext.request.contextPath}/resources/sns/HTML/images/down-arrow.png" alt="" /></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="${pageContext.request.contextPath}/timeline/timelineList">타임라인</a></li>
+                  <!-- <li><a href="timeline-about.jsp">Timeline About</a></li> 타임라인에 대한 설명-->
+                  <%-- <li><a href="${pageContext.request.contextPath}/sns/view/timeline/timeline-album.jsp">앨범</a></li> --%>
+                  <%-- <li><a href="${pageContext.request.contextPath}/follow/followingList/1">팔로잉</a></li>
+                  <li><a href="${pageContext.request.contextPath}/follow/followerList/1">팔로워</a></li> --%>
+                  <li><a href="${pageContext.request.contextPath}/profile/profilebasic">개인정보</a></li>
+                  <%-- <li><a href="${pageContext.request.contextPath}/sns/view/editProfile/edit-profile-work-edu.jsp">직장정보</a></li> --%>
+                  <%-- <li><a href="${pageContext.request.contextPath}/sns/view/editProfile/edit-profile-interests.jsp">내 관심사</a></li> --%>
+                  <%-- <li><a href="${pageContext.request.contextPath}/sns/view/editProfile/edit-profile-settings.jsp">계정설정</a></li> --%>
+                  <li><a href="${pageContext.request.contextPath}/profile/profilepassword">비밀번호 변경</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle pages" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">고객센터 <span><img src="${pageContext.request.contextPath}/resources/sns/HTML/images/down-arrow.png" alt="" /></span></a>
+                <ul class="dropdown-menu page-list">
+<!--                   <li><a href="index.jsp">Landing Page</a></li>
+                  <li><a href="index-register.jsp">Landing Page 2</a></li>
+                  <li><a href="newsfeed.jsp">뉴스피드</a></li>
+                  <li><a href="newsfeed-people-nearby.jsp">가까운 친구</a></li>
+                  <li><a href="newsfeed-friends.jsp">My friends</a></li>
+                  <li><a href="newsfeed-messages.jsp">대화하기</a></li>
+                  <li><a href="newsfeed-images.jsp">Images</a></li>
+                  <li><a href="newsfeed-videos.jsp">Videos</a></li>
+                  <li><a href="timeline.jsp">타임라인</a></li>
+                  <li><a href="timeline-about.jsp">Timeline About</a></li>
+                  <li><a href="timeline-album.jsp">Timeline Album</a></li>
+                  <li><a href="timeline-friends.jsp">Timeline Friends</a></li>
+                  <li><a href="edit-profile-basic.jsp">Edit Profile</a></li> -->
+                  <li><a href="${pageContext.request.contextPath}/qna/qnaList">문의하기</a></li>
+                  <%-- <li><a href="${pageContext.request.contextPath}/sns/view/qnaanswer/faq.jsp">F A Q</a></li> --%>
+                 <%--  <li><a href="${pageContext.request.contextPath}/sns/view/error/404.jsp">404 Not Found</a></li> --%>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href = "${pageContext.request.contextPath}/main/logout" class="dropdown-toggle" role="button" onclick="return confirm('로그아웃 하시겠습니까?')">로그아웃 </a>
+                 <ul class="dropdown-menu newsfeed-home">
+                </ul> 
+              </li>
+            </ul>
+            
+            <form action="${pageContext.request.contextPath}/search/headerSearch" method="post" class="navbar-form navbar-right hidden-sm">
+              <div class="form-group">
+                <i class="icon ion-android-search"></i>
+                <input type="text" name = "keyword" class="form-control"  placeholder="친구의 아이디를 검색해 보세요." >
+              </div>
+            </form>
+             
+             
+
+
+
+             
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
+    </header>
+    <!--Header End-->
+    
+    
+
+    

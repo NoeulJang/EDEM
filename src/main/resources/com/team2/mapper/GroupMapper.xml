@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.GroupMapper">
+
+	<select id="registerGroup">
+		<![CDATA[  
+		insert into gr values (grseq.nextval , #{memno} , #{grname} , #{grintro} , #{grci} , sysdate)
+		]]>
+	</select>
+
+	<select id="registerGroupMember">
+		<![CDATA[  
+		insert into grmem values (grseq.currval , #{memno} , '관리자' , sysdate)
+		]]>
+	</select>
+
+	<select id="addAttach">
+		<![CDATA[  
+		insert into grattach values (#{fullName}, grseq.currval, sysdate)
+		]]>
+	</select>
+
+	<select id="addDefaultAttach">
+		<![CDATA[  
+		insert into grattach values ('/0000/00/00/s_unnamed.jpg', grseq.currval, sysdate)
+		]]>
+	</select>
+
+	<sql id="search">
+		<if test="keyword != '%null%'.toString()">
+			where grci like #{keyword} or grname like #{keyword}
+		</if>
+	</sql>
+
+	<select id="listGroup" resultType="com.team2.domain.GroupVO">
+		<![CDATA[
+		select * from (select rownum rnum, data.* from (select * from 
+    		(select gro.*, ga.fullname from grattach ga, (select gr.* from gr order by grdate desc) gro 
+        		where gro.grno = ga.grno) grou
+		]]>
+		<include refid="search"></include>
+		<![CDATA[        
+		        ) data) where rnum >= #{pageStart} and rnum <= #{size}
+		]]>
+	</select>
+
+	<select id="count" resultType="int">
+		<![CDATA[  
+		select count(grno) from gr
+		]]>
+
+		<include refid="search"></include>
+	</select>
+
+	<select id="listMyGroup" resultType="com.team2.domain.GroupVO">
+		<![CDATA[
+		select * from (select rownum rnum, data.* from (select * from 
+    		(select * from (select gro.*, ga.fullname from grattach ga, 
+    			(select grmem.*, gr.grname, gr.grintro, gr.grci from grmem, gr where gr.grno = grmem.grno order by grjodate desc) gro 
+        			where gro.grno = ga.grno) grou 
+        ]]>
+		<include refid="search"></include>			
+        <![CDATA[			
+        			)groupp 
+        			where groupp.memno = #{memno} ) data) where rnum >= #{pageStart} and rnum <= #{size}
+		]]>
+	</select>
+
+	<select id="myCount" resultType="int">
+		<![CDATA[  
+		select count(*) from (select * from gr
+		]]>
+
+		<include refid="search"></include>
+			
+		<![CDATA[  
+		) where memno = #{memno}
+		]]>
+
+	</select>
+
+	<select id="joiningGroup" resultType="int">
+		<![CDATA[  
+		select count(*) from graddmem where subcmemno = #{memno} and grno = #{grno}
+		]]>
+	</select>
+
+	<select id="canReadGroup" resultType="int">
+		<![CDATA[  
+		select count(*) from grmem where memno = #{memno} and grno= #{grno}
+		]]>
+	</select>
+
+	<select id="groupOne" resultType="com.team2.domain.GroupVO">
+		<![CDATA[  
+		select gr.*, grattach.fullname from gr, grattach where gr.grno = #{grno} and gr.grno = grattach.grno
+		]]>
+	</select>
+
+	<select id="joinGroup">
+		<![CDATA[
+		insert into graddmem values(#{grno}, #{grmemno}, #{subcmemno}, #{subscrip}, sysdate)
+		]]>
+	</select>
+
+	<select id="groupMemAuth" resultType="String">
+		<![CDATA[
+		select grmemau from grmem where grno = #{grno} and memno = #{memno}
+		]]>
+	</select>
+	
+	<select id="listGroupAddMember" resultType="com.team2.domain.GroupMemberVO">
+		<![CDATA[
+		select * from (select rownum rnum, data.* from (select m.memno, m.id, m.job, m.memimg, m.covimg from member m,
+    		(select * from gr g, graddmem ga where g.grno = ga.grno and ga.grno = #{grno})gro where m.memno = gro.subcmemno) data ) 
+    			where rnum >= #{pageStart} and rnum <= #{size}
+		]]>
+	</select>
+	
+	<select id="listGroupMemberAdmin" resultType="com.team2.domain.GroupMemberVO">
+		<![CDATA[
+		select * from (select rownum rnum, data.* from
+    		(select m.memno, m.id, m.job, m.memimg, m.covimg from member m, grmem gm 
+    			where m.memno = gm.memno and gm.grno = #{grno} and grmemau != '관리자') data )
+    				where rnum >= #{pageStart} and rnum <= #{size}
+		]]>
+	</select>
+	
+	<select id="countAddMember" resultType="int">
+		<![CDATA[
+		select count(*) from member m, (select * from gr g, graddmem ga where g.grno = ga.grno and ga.grno=#{grno}) 
+			gro where m.memno=gro.subcmemno
+		]]>
+	</select>
+	
+	<select id="countGroupMemberAdmin" resultType="int">
+		<![CDATA[
+		select count(*) from grmem where grno = #{grno} and grmemau != '관리자'
+		]]>
+	</select>
+	
+	<select id="addMember">
+		<![CDATA[
+		insert into grmem values(#{grno}, #{memno}, '일반회원', sysdate)
+		]]>
+	</select>
+	
+	<select id="removeAddMember">
+		<![CDATA[
+		delete graddmem where grno = #{grno} and subcmemno = #{memno}
+		]]>
+	</select>
+	
+	<select id="removeMember">
+		<![CDATA[
+		delete grmem where grno = #{grno} and memno = #{memno}
+		]]>
+	</select>
+	
+	<select id="removeGroup">
+		<![CDATA[
+		delete gr where grno = #{grno}
+		]]>
+	</select>
+	
+	<select id="groupNewsfeed" resultType="com.team2.domain.GroupNewsfeedVO">
+		<![CDATA[
+		select * from (select rownum rnum, data.* from(
+	    	select grp.*, ga.fullname from grpoattach ga,(
+	        	select gp.*, m.id, m.memimg from grpost gp, member m where grno=#{grno} and gp.memno = m.memno order by grpodate desc) grp 
+	            	where grp.grpostno = ga.grpostno) data)
+	                	where rnum >= #{pageStart} and rnum <= #{size}
+		]]>
+	</select>
+	
+	<select id="countGroupNewsfeed" resultType="int">
+		<![CDATA[
+		select count(*) from grpost where grno = #{grno}
+		]]>
+	</select>
+	
+	<select id="groupNewsfeedWrite">
+		<![CDATA[
+		insert into grpost values(GRPOSTSEQ.nextval, #{memno}, #{grno}, #{grpocon}, 0, sysdate)
+		]]>
+	</select>
+	
+	<select id="groupNewsfeedAttach">
+		<![CDATA[
+		insert into grpoattach values(#{fileName}, GRPOSTSEQ.currval, sysdate)
+		]]>
+	</select>
+	
+	<select id="defaultGroupNewsfeedAttach">
+		<![CDATA[
+		insert into grpoattach values('nofile', GRPOSTSEQ.currval, sysdate)
+		]]>
+	</select>
+
+</mapper>

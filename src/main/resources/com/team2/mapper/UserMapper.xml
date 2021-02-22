@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.UserMapper">
+	
+	<select id="login" resultType="com.team2.domain.UserVO">
+
+		select memno, id, pw, email, ph, name, birth, loc, job, memimg, covimg from member where id = #{id} and pw = #{pw}
+
+	</select>
+
+	<update id="keepLogin">
+		update member set sessionKey = #{sessionId}, sessionLimit = #{next} where id = #{id}
+	</update>
+
+	<select id="checkUserWithSessionKey" resultType="com.team2.domain.UserVO">
+		select * from member where sessionKey = #{value} and sessionlimit > now()
+	</select>
+	
+	
+	<select id="countMyFollowers" resultType="Integer" >
+		select count(*) from follower where memno=#{memno}
+	</select>
+
+</mapper>
+
+

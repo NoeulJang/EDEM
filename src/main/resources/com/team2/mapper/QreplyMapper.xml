@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.QreplyMapper">
+
+
+	<!-- 댓글 조회 -->
+	<select id ="read" resultType="com.team2.domain.QreplyVO">
+		SELECT RNO, CONTENT, replydate
+		FROM qnaREPLY
+		WHERE answerNO = #{answerNo}
+	</select>
+	
+
+	<!-- 댓글 작성 -->
+	<insert id="write">
+		INSERT INTO qnaREPLY(rno, answerNo, content, replydate) VALUES(qnaREPLYSEQ.NEXTVAL, #{answerNo}, #{content}, sysdate)
+	</insert>
+
+
+	<!-- 댓글 수정 -->
+	<update id="update" parameterType="com.team2.domain.QreplyVO">
+		UPDATE qnaREPLY SET CONTENT =
+		#{content}
+		WHERE RNO = #{rno}
+	</update>
+
+	<!-- 댓글 삭제 -->
+	<delete id="delete" parameterType="com.team2.domain.QreplyVO">
+		DELETE FROM qnaREPLY
+		WHERE RNO = #{rno}
+	</delete>
+
+	<!-- 선택된 댓글 조회 -->
+	<select id="selectReply" resultType="com.team2.domain.QreplyVO">
+		SELECT
+		RNO
+		, answerNO
+		, content
+		, replydate
+		FROM qnaREPLY
+		WHERE RNO = #{rno}
+	</select>
+
+
+<select id="listPage" resultType="com.team2.domain.QreplyVO">
+	<![CDATA[
+	SELECT answerNo, rNo, content, replydate
+		 FROM (SELECT answerNo, rno, content, replydate, ROW_NUMBER() OVER(ORDER BY answerNo DESC) AS RNUM
+		 FROM qnaanswer where 1=1
+	      ) qna
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		
+		ORDER BY answerNo DESC
+       ]]>
+	
+	</select>
+	
+	
+	<select id="replyCount" resultType="int">
+	<![CDATA[
+		select count(*) from qnareply 
+		where answerNo = #{answerNo}
+	]]>
+	</select>
+	
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+
+
+

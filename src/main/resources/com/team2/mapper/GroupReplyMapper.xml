@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team2.mapper.GroupReplyMapper">
+
+	<select id="listReply" resultType="com.team2.domain.GroupReplyVO">
+		<![CDATA[
+		select * from    
+    		(select rownum rnum, data.* from                
+        		(select grpl.*, m.memimg, m.id from member m,
+            		(select grp.* from grporeply grp, grpost gp where gp.grpostno = #{grpostno} and grp.grpostno = gp.grpostno order by replydate) grpl 
+                		where m.memno = grpl.memno) data) where rnum >= (#{page}-1)*10+1 and rnum <= #{page}*10
+		]]>
+	</select>
+	
+	<select id="replyCount" resultType="int">
+		<![CDATA[
+		select count(*) from grporeply grp, grpost gp where gp.grpostno = #{grpostno} and grp.grpostno = gp.grpostno
+		]]>
+	</select>
+	
+	<select id="addReply">
+		<![CDATA[
+		insert into grporeply values(GRPOREPLYSEQ.nextval, #{grpostno}, #{memno}, #{content}, sysdate)
+		]]>
+	</select>
+	
+	<select id="modifyReply">
+		<![CDATA[
+		update grporeply set content = #{content} where rno = #{rno}
+		]]>
+	</select>
+	
+	<select id="delete">
+		<![CDATA[
+		delete from grporeply where rno = #{rno}
+		]]>
+	</select>
+	
+</mapper>
+
